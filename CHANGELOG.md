@@ -1,3 +1,77 @@
+# 1.3.0 / 2020-03-0x
+
+- [type] export types from messaging-apis (#661):
+
+```ts
+import { 
+  MessengerTypes, 
+  WhatsappTypes, 
+  LineTypes, 
+  TelegramTypes, 
+  SlackTypes, 
+  ViberTypes, 
+} from 'bottender';
+```
+
+- [deps] update dependencies.
+
+## whatsapp
+
+- [new] add new channel `whatsapp` (#664):
+
+```js
+// bottender.config.js
+
+module.exports = {
+  channels: {
+    whatsapp: {
+      enabled: true,
+      path: '/webhooks/whatsapp',
+      accountSid: process.env.WHATSAPP_ACCOUNT_SID,
+      authToken: process.env.WHATSAPP_AUTH_TOKEN,
+      phoneNumber: process.env.WHATSAPP_PHONE_NUMBER,
+    },
+  },
+};
+```
+
+## slack
+
+- [new] support Slack signing secret:
+
+```js
+// bottender.config.js
+
+module.exports = {
+  channels: {
+    slack: {
+      enabled: true,
+      path: '/webhooks/slack',
+      accessToken: process.env.SLACK_ACCESS_TOKEN,
+      signingSecret: process.env.SLACK_SIGNING_SECRET,
+      // verificationToken: process.env.SLACK_VERIFICATION_TOKEN, // deprecated, use signingSecret
+    },
+  },
+};
+```
+
+- [new] add support for Slack slash commands (#166):
+
+```js
+async function App(context) {
+  if (context.event.isCommand) {
+    await context.sendText(
+      `I received slash command '${context.event.command}' with arguments: '${context.event.text}'`
+    );
+  }
+}
+```
+
+## create-bottender-app
+
+- [new] use signing secret in create-bottender-app (#659).
+- [new] add TypeScript support to `bottender dev` (#654).
+
 # 1.2.2 / 2020-02-24
 
 ## create-bottender-app
